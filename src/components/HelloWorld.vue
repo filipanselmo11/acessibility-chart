@@ -1,42 +1,106 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <div id="container"></div>
 </template>
 
 <script>
+import Highcharts from "highcharts";
+import Accessibility from "highcharts/modules/accessibility";
+Accessibility(Highcharts);
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+  name: "HelloWorld",
+  data: () => ({}),
+  mounted() {
+    this.dataSource();
+  },
+  methods: {
+    async dataSource() {
+      Highcharts.chart("container", {
+        title: {
+          text: "Crescimento do Emprego Solar por Setor, 2010-2016",
+        },
+        accessibility: {
+          typeDescription: "Gráfico de 5 linhas",
+        },
+
+        subtitle: {
+          text: "Fonte: thesolarfoundation.com",
+        },
+
+        yAxis: {
+          title: {
+            text: "Numero de Empregados",
+          },
+          accessibility: {
+            description: "Numero de Empregados",
+          },
+        },
+
+        xAxis: {
+          accessibility: {
+            enabled: true,
+            description: 'Dados do Eixo X',
+            rangeDescription: "Faixa: 2010 a 2017",
+          },
+        },
+
+        legend: {
+          layout: "vertical",
+          align: "right",
+          verticalAlign: "middle",
+        },
+
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: false,
+            },
+            pointStart: 2010,
+          },
+        },
+
+        series: [
+          {
+            name: "Instalação",
+            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
+          },
+          {
+            name: "Manufatura",
+            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434],
+          },
+          {
+            name: "Vendas & Distribuição",
+            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387],
+          },
+          {
+            name: "Desenvolvimento do Projeto",
+            data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227],
+          },
+          {
+            name: "Outro",
+            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111],
+          },
+        ],
+
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500,
+              },
+              chartOptions: {
+                legend: {
+                  layout: "horizontal",
+                  align: "center",
+                  verticalAlign: "bottom",
+                },
+              },
+            },
+          ],
+        },
+      });
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
